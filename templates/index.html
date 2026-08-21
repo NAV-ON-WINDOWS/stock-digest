@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Stock Alert: Your daily dose of stock alerts{% endblock %}
+
+{% block content %}
+
+<div class="hero">
+    <h1>📈 Stock Alert</h1>
+    <p>Live prices of America's top performing stocks — clean, fast, and updated straight from the market.</p>
+    <a href="/stocks" class="button">View Live Prices</a>
+</div>
+
+<section>
+    <h2>How It Works</h2>
+    <p class="section-intro">From market data to your inbox, in five steps.</p>
+    <div class="steps-detailed">
+        <div class="step-detailed">
+            <div class="num">1</div>
+            <div><h3>Fetching live data</h3><p>Pulled from the Twelve Data API for a curated list of major US stocks.</p></div>
+        </div>
+        <div class="step-detailed">
+            <div class="num">2</div>
+            <div><h3>Checking market hours</h3><p>The app knows when markets are open, so prices are never confused for stale.</p></div>
+        </div>
+        <div class="step-detailed">
+            <div class="num">3</div>
+            <div><h3>Delivering it, automatically</h3><p>Every morning at 9:35, a digest lands in your inbox — no checking required.</p></div>
+        </div>
+    </div>
+    <a href="/how-it-works" class="read-more">Read the full breakdown →</a>
+</section>
+
+<section>
+    <h2>What's Inside</h2>
+    <p class="section-intro">Built to stay small and useful.</p>
+    <div class="feature-groups">
+        <div class="feature-group">
+            <ul>
+                <li><strong>Live price fetching</strong> — pulled symbol by symbol.</li>
+                <li><strong>Market-hours awareness</strong> — no stale data confusion.</li>
+                <li><strong>Automated daily email</strong> — sent without lifting a finger.</li>
+            </ul>
+        </div>
+    </div>
+    <a href="/features" class="read-more">See all features →</a>
+</section>
+
+<section>
+    <h2>Built With</h2>
+    <p class="section-intro">A small, deliberate stack.</p>
+    <div class="tech-list">
+        <div class="tech-item"><span class="tech-name">Python</span></div>
+        <div class="tech-item"><span class="tech-name">Flask</span></div>
+        <div class="tech-item"><span class="tech-name">Twelve Data API</span></div>
+        <div class="tech-item"><span class="tech-name">SMTP</span></div>
+    </div>
+    <a href="/tech" class="read-more">Full tech breakdown →</a>
+</section>
+
+{% endblock %}

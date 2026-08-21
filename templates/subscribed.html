@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{% if result.success %}Sent!{% else %}Oops{% endif %} — Stock Alert{% endblock %}
+
+{% block content %}
+<div class="hero">
+    {% if result.success %}
+        <h1>✅ You're All Set</h1>
+        <p>{{ result.message }}</p>
+    {% else %}
+        <h1>⚠️ Something Went Wrong</h1>
+        <p>{{ result.message }}</p>
+    {% endif %}
+    <a href="/" class="button">Back Home</a>
+</div>
+{% endblock %}

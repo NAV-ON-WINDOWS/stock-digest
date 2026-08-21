@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}How It Works — Stock Alert{% endblock %}
+
+{% block content %}
+<section style="border-top: none; padding-top: 60px;">
+    <h2>How It Works</h2>
+    <p class="section-intro">The full path a price takes — from the market to your inbox.</p>
+
+    <div class="steps-detailed">
+        <div class="step-detailed">
+            <div class="num">1</div>
+            <div>
+                <h3>Fetching live data</h3>
+                <p>Every run, the app queries the Twelve Data API for a curated list of major US stocks — including names like Apple, Boeing, Nike, and Starbucks — requesting the most recent minute-by-minute price data available for each one.</p>
+            </div>
+        </div>
+        <div class="step-detailed">
+            <div class="num">2</div>
+            <div>
+                <h3>Checking market hours</h3>
+                <p>Before anything is sent out, the app checks whether US markets are actually open. Since NYSE and NASDAQ only trade on weekdays during set hours, this step makes sure you're never confused about whether a price is live or simply the last known close.</p>
+            </div>
+        </div>
+        <div class="step-detailed">
+            <div class="num">3</div>
+            <div>
+                <h3>Cleaning the response</h3>
+                <p>Raw API responses are deeply nested and inconsistent — some symbols succeed, some fail, some plans restrict certain data. This step extracts just the symbol and price for each stock, and gracefully skips anything that comes back malformed.</p>
+            </div>
+        </div>
+        <div class="step-detailed">
+            <div class="num">4</div>
+            <div>
+                <h3>Building the email</h3>
+                <p>The cleaned prices are formatted into a short, readable digest — aligned columns, clear labels, no clutter — and composed into the body of a plain email, ready to send.</p>
+            </div>
+        </div>
+        <div class="step-detailed">
+            <div class="num">5</div>
+            <div>
+                <h3>Delivering it, automatically</h3>
+                <p>Every morning at 9:35, the whole pipeline runs on its own — fetch, check, clean, build, send — and the digest lands in your inbox before you've had your first coffee.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

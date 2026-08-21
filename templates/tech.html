@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Built With — Stock Alert{% endblock %}
+
+{% block content %}
+<section style="border-top: none; padding-top: 60px;">
+    <h2>Built With</h2>
+    <p class="section-intro">Each piece doing exactly one job.</p>
+
+    <div class="tech-list">
+        <div class="tech-item">
+            <span class="tech-name">Python</span>
+            <span class="tech-desc">The core language behind every part of the app — fetching, processing, and sending.</span>
+        </div>
+        <div class="tech-item">
+            <span class="tech-name">Flask</span>
+            <span class="tech-desc">A lightweight web framework powering this dashboard and its pages.</span>
+        </div>
+        <div class="tech-item">
+            <span class="tech-name">Twelve Data API</span>
+            <span class="tech-desc">The live market data source for every stock price shown or emailed.</span>
+        </div>
+        <div class="tech-item">
+            <span class="tech-name">SMTP</span>
+            <span class="tech-desc">Handles the actual sending of the daily email digest, straight from Python.</span>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Features — Stock Alert{% endblock %}
+
+{% block content %}
+<section style="border-top: none; padding-top: 60px;">
+    <h2>What's Inside</h2>
+    <p class="section-intro">No clutter, no accounts you don't need, no noise.</p>
+
+    <div class="feature-groups">
+        <div class="feature-group">
+            <h3>Data</h3>
+            <ul>
+                <li><strong>Live price fetching</strong> — pulled symbol by symbol from a real market data provider.</li>
+                <li><strong>Market-hours awareness</strong> — the app knows when markets are closed and won't pretend stale data is fresh.</li>
+                <li><strong>Graceful failure handling</strong> — a bad symbol or a rate limit doesn't take down the whole run.</li>
+            </ul>
+        </div>
+        <div class="feature-group">
+            <h3>Delivery</h3>
+            <ul>
+                <li><strong>Automated daily email</strong> — sent every morning without needing to open the app.</li>
+                <li><strong>Clean digest formatting</strong> — aligned, scannable, no HTML clutter.</li>
+            </ul>
+        </div>
+        <div class="feature-group">
+            <h3>Interface</h3>
+            <ul>
+                <li><strong>Minimal live dashboard</strong> — a simple page to check prices on demand, outside of the email.</li>
+                <li><strong>Focused stock list</strong> — a hand-picked set of companies, not an overwhelming universe of tickers.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}

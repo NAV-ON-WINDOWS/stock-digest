@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Stock Alert{% endblock %}</title>
+    <style>
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            font-family: -apple-system, "Segoe UI", sans-serif;
+            background: #000000;
+            color: #ffffff;
+        }
+        .navbar {
+            position: sticky;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 32px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #1a1a1a;
+            z-index: 10;
+        }
+        .navbar .logo {
+            font-weight: 700;
+            font-size: 16px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.15s ease;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #ffffff;
+        }
+        .nav-actions { display: flex; gap: 10px; }
+        .btn-outline, .btn-primary {
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.15s ease, border-color 0.15s ease;
+        }
+        .btn-outline { color: #ffffff; border: 1px solid #333333; }
+        .btn-outline:hover { border-color: #0d0db4; }
+        .btn-primary { background: #0d0db4; color: #ffffff; }
+        .btn-primary:hover { background: #14149e; }
+
+        .hero { padding: 80px 20px 60px; text-align: center; }
+        h1 { font-size: 32px; font-weight: 700; color: #0d0db4; margin: 0 0 16px; }
+        .hero p {
+            color: #cccccc; font-size: 15px; line-height: 1.6;
+            max-width: 420px; margin: 0 auto 32px;
+        }
+        a.button {
+            display: inline-block; background: #0d0db4; color: #ffffff;
+            text-decoration: none; font-weight: 600; font-size: 14px;
+            padding: 12px 28px; border-radius: 8px; transition: background 0.15s ease;
+        }
+        a.button:hover { background: #14149e; }
+
+        section {
+            max-width: 720px; margin: 0 auto; padding: 70px 24px;
+            border-top: 1px solid #1a1a1a; text-align: left;
+        }
+        section > h2 {
+            font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em;
+            color: #6b6bff; margin: 0 0 8px; text-align: center;
+        }
+        section > .section-intro {
+            color: #888888; font-size: 14px; text-align: center;
+            max-width: 480px; margin: 0 auto 40px; line-height: 1.6;
+        }
+
+        .steps-detailed { display: flex; flex-direction: column; gap: 28px; }
+        .step-detailed {
+            display: flex; gap: 20px; padding: 22px;
+            background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px;
+        }
+        .step-detailed .num {
+            flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%;
+            background: #0d0db4; color: #ffffff; font-size: 13px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .step-detailed h3 { font-size: 16px; margin: 0 0 6px; color: #ffffff; }
+        .step-detailed p { font-size: 14px; color: #aaaaaa; line-height: 1.6; margin: 0; }
+
+        .feature-groups { display: flex; flex-direction: column; gap: 30px; }
+        .feature-group h3 { font-size: 15px; color: #6b6bff; margin: 0 0 12px; }
+        .feature-group ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+        .feature-group li {
+            font-size: 14px; color: #cccccc; line-height: 1.5;
+            padding-left: 20px; position: relative;
+        }
+        .feature-group li::before { content: "→"; position: absolute; left: 0; color: #0d0db4; }
+        .feature-group li strong { color: #ffffff; }
+
+        .tech-list { display: flex; flex-direction: column; gap: 18px; }
+        .tech-item {
+            display: flex; justify-content: space-between; align-items: baseline;
+            gap: 20px; padding: 16px 0; border-bottom: 1px solid #161616;
+        }
+        .tech-item:last-child { border-bottom: none; }
+        .tech-name { font-size: 14px; font-weight: 700; color: #ffffff; white-space: nowrap; }
+        .tech-desc { font-size: 13px; color: #888888; text-align: right; line-height: 1.5; }
+
+        .read-more {
+            display: inline-block; margin-top: 24px; color: #6b6bff;
+            text-decoration: none; font-size: 14px; font-weight: 600;
+        }
+        .read-more:hover { color: #ffffff; }
+
+        footer { padding: 40px 20px; color: #555555; font-size: 13px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="/" class="logo">📈 Stock Alert</a>
+        <ul class="nav-links">
+            <li><a href="/how-it-works" class="{% if active == 'how' %}active{% endif %}">How It Works</a></li>
+            <li><a href="/features" class="{% if active == 'features' %}active{% endif %}">Features</a></li>
+            <li><a href="/tech" class="{% if active == 'tech' %}active{% endif %}">Built With</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="/get-started" class="btn-primary">Get Started</a>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <footer>
+        A small personal project. Built by someone who got tired of checking prices manually.
+    </footer>
+
+</body>
+</html>

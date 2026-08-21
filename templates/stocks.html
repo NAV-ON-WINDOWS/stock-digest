@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Live Prices — Stock Alert{% endblock %}
+
+{% block content %}
+<section style="border-top: none; padding-top: 60px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; margin-bottom:32px; text-align:left;">
+        <div>
+            <h1 style="font-size:28px; margin:0 0 8px; text-align:left;">Today's Prices</h1>
+            <div style="display:flex; align-items:center; gap:8px; font-family:monospace; font-size:13px; color:#888;">
+                <span style="width:8px; height:8px; border-radius:50%; display:inline-block; background:{{ '#16a34a' if market_open else '#6b6bff' }};"></span>
+                {% if market_open %}
+                    Markets open — live data
+                {% else %}
+                    Markets closed — showing last available data
+                {% endif %}
+            </div>
+        </div>
+        <a href="/" class="btn-outline">← Back</a>
+    </div>
+
+    <div style="border:1px solid #1a1a1a; border-radius:10px; overflow:hidden;">
+        <table style="width:100%; border-collapse:collapse;">
+            <thead>
+                <tr style="background:#0a0a0a;">
+                    <th style="text-align:left; padding:14px 20px; font-size:12px; text-transform:uppercase; letter-spacing:0.06em; color:#888; border-bottom:1px solid #1a1a1a;">Symbol</th>
+                    <th style="text-align:right; padding:14px 20px; font-size:12px; text-transform:uppercase; letter-spacing:0.06em; color:#888; border-bottom:1px solid #1a1a1a;">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for symbol, price in prices.items() %}
+                <tr style="border-bottom:1px solid #161616;">
+                    <td style="padding:14px 20px; font-weight:600; color:#fff;">{{ symbol }}</td>
+                    <td style="padding:14px 20px; text-align:right; font-family:monospace; color:#cccccc;">${{ price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

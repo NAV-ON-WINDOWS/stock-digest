@@ -10,9 +10,20 @@ app = Flask(__name__)
 
 EMAIL_PATTERN = re.compile(r"^[\w\.\+\-]+@[\w\-]+\.[a-zA-Z]{2,}$")
 
-@app.route("/")
-def welcome():
-    return render_template("index.html")
+@app.route('/')
+def index():
+    live_stocks_data = [
+        {"symbol": "AAPL", "price": "189.43", "change_percent": "1.24", "is_up": True},
+        {"symbol": "MSFT", "price": "420.55", "change_percent": "0.45", "is_up": True},
+        {"symbol": "NVDA", "price": "880.08", "change_percent": "2.30", "is_up": True},
+        {"symbol": "AMZN", "price": "175.35", "change_percent": "1.12", "is_up": False},
+        {"symbol": "META", "price": "485.58", "change_percent": "1.85", "is_up": True},
+        {"symbol": "GOOGL", "price": "142.65", "change_percent": "0.32", "is_up": False},
+        {"symbol": "TSLA", "price": "212.11", "change_percent": "0.85", "is_up": False},
+        {"symbol": "NFLX", "price": "602.15", "change_percent": "1.05", "is_up": True},
+    ]
+    
+    return render_template('index.html', stocks=live_stocks_data)
 
 @app.route("/stocks")
 def stocks_prices_display():

@@ -3,57 +3,219 @@
 
 {% block content %}
 
-<div class="hero">
-    <h1>📈 Stock Alert</h1>
-    <p>Live prices of America's top performing stocks — clean, fast, and updated straight from the market.</p>
-    <a href="/stocks" class="button">View Live Prices</a>
+<style>
+    /* Full-Viewport Fixed Background */
+    .global-cascading-bg {
+        position: fixed;
+        top: -50%;
+        left: -10%;
+        width: 120%;
+        height: 200%;
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        opacity: 0.12; /* Lowered slightly for full-page readability */
+        transform: rotate(-6deg); 
+        pointer-events: none; 
+        z-index: -1; /* Keeps it strictly behind all content */
+        
+        /* Fades the extreme top and bottom to blend smoothly */
+        mask-image: linear-gradient(to bottom, transparent 5%, black 20%, black 80%, transparent 95%);
+        -webkit-mask-image: linear-gradient(to bottom, transparent 5%, black 20%, black 80%, transparent 95%);
+    }
+
+    .stock-col {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        min-width: 220px;
+    }
+
+    /* Scrolling animations */
+    .col-up { animation: slide-up 45s linear infinite; }
+    .col-down { animation: slide-down 45s linear infinite; }
+
+    /* Staggered vertical alignments */
+    .col-1 { margin-top: -100px; }
+    .col-2 { margin-top: 150px; }
+    .col-3 { margin-top: -50px; }
+    .col-4 { margin-top: 200px; }
+    .col-5 { margin-top: -150px; }
+
+    @keyframes slide-up {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-50%); }
+    }
+    @keyframes slide-down {
+        0% { transform: translateY(-50%); }
+        100% { transform: translateY(0); }
+    }
+
+    /* Minimalist Glass Card */
+    .bg-card {
+        background: rgba(30, 41, 59, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1rem 1.25rem;
+        border-radius: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        color: #fff;
+        font-family: ui-monospace, SFMono-Regular, monospace;
+    }
+
+    .bg-card .row-top { display: flex; justify-content: space-between; align-items: center; }
+    .bg-card .symbol { font-size: 0.85rem; font-weight: 700; color: #9ca3af; }
+    .bg-card .price { font-size: 1.15rem; font-weight: 700; }
+    .bg-card .change.up { font-size: 0.85rem; font-weight: 600; color: #22c55e; }
+    .bg-card .change.down { font-size: 0.85rem; font-weight: 600; color: #ef4444; }
+
+    /* Content Wrappers */
+    .page-content {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .hero-section {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+        width: 100%;
+    }
+
+    .hero-content {
+        max-width: 650px;
+        background: radial-gradient(circle, rgba(10, 15, 25, 0.85) 0%, rgba(10, 15, 25, 0) 70%);
+        padding: 3rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 3.5rem;
+        color: #3b82f6;
+        margin-bottom: 1.25rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        text-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+    }
+    
+    .hero-content p {
+        font-size: 1.25rem;
+        color: #e2e8f0;
+        line-height: 1.6;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Make lower sections stand out over the background */
+    section {
+        position: relative;
+        z-index: 10;
+        background: rgba(10, 15, 25, 0.6);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border-radius: 1rem;
+        padding: 3rem 2rem;
+        margin: 2rem 0;
+        width: 100%;
+        max-width: 800px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+</style>
+
+<!-- Global Animated Background -->
+<div class="global-cascading-bg">
+    <!-- Generating 5 columns to span ultra-wide screens -->
+    {% set column_classes = ['col-up col-1', 'col-down col-2', 'col-up col-3', 'col-down col-4', 'col-up col-5'] %}
+    
+    {% for col_class in column_classes %}
+    <div class="stock-col {{ col_class }}">
+        {% if stocks %}
+            <!-- Save the outer loop index to a variable -->
+            {% set col_index = loop.index %}
+            
+            <!-- Looping 4 times to ensure it covers the 200% height for infinite scroll -->
+            {% for i in range(4) %}
+                <!-- Use the saved col_index to reverse alternating columns -->
+                {% set display_stocks = stocks|reverse if col_index % 2 == 0 else stocks %}
+                
+                {% for stock in display_stocks %}
+                <div class="bg-card">
+                    <div class="row-top">
+                        <span class="symbol">{{ stock.symbol }}</span>
+                        <span class="change {% if stock.is_up %}up{% else %}down{% endif %}">
+                            {% if stock.is_up %}▲{% else %}▼{% endif %} {{ stock.change_percent }}%
+                        </span>
+                    </div>
+                    <span class="price">${{ stock.price }}</span>
+                </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+    </div>
+    {% endfor %}
 </div>
 
-<section>
-    <h2>How It Works</h2>
-    <p class="section-intro">From market data to your inbox, in five steps.</p>
-    <div class="steps-detailed">
-        <div class="step-detailed">
-            <div class="num">1</div>
-            <div><h3>Fetching live data</h3><p>Pulled from the Twelve Data API for a curated list of major US stocks.</p></div>
-        </div>
-        <div class="step-detailed">
-            <div class="num">2</div>
-            <div><h3>Checking market hours</h3><p>The app knows when markets are open, so prices are never confused for stale.</p></div>
-        </div>
-        <div class="step-detailed">
-            <div class="num">3</div>
-            <div><h3>Delivering it, automatically</h3><p>Every morning at 9:35, a digest lands in your inbox — no checking required.</p></div>
+<!-- Foreground Page Content -->
+<div class="page-content">
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>📈 Stock Alert</h1>
+            <p>Live prices of America's top performing stocks — clean, fast, and updated straight from the market.</p>
         </div>
     </div>
-    <a href="/how-it-works" class="read-more">Read the full breakdown →</a>
-</section>
 
-<section>
-    <h2>What's Inside</h2>
-    <p class="section-intro">Built to stay small and useful.</p>
-    <div class="feature-groups">
-        <div class="feature-group">
-            <ul>
-                <li><strong>Live price fetching</strong> — pulled symbol by symbol.</li>
-                <li><strong>Market-hours awareness</strong> — no stale data confusion.</li>
-                <li><strong>Automated daily email</strong> — sent without lifting a finger.</li>
-            </ul>
+    <section>
+        <h2>How It Works</h2>
+        <p class="section-intro">From market data to your inbox, in five steps.</p>
+        <div class="steps-detailed">
+            <div class="step-detailed">
+                <div class="num">1</div>
+                <div><h3>Fetching live data</h3><p>Pulled from the Twelve Data API for a curated list of major US stocks.</p></div>
+            </div>
+            <div class="step-detailed">
+                <div class="num">2</div>
+                <div><h3>Checking market hours</h3><p>The app knows when markets are open, so prices are never confused for stale.</p></div>
+            </div>
+            <div class="step-detailed">
+                <div class="num">3</div>
+                <div><h3>Delivering it, automatically</h3><p>Every morning at 9:35, a digest lands in your inbox — no checking required.</p></div>
+            </div>
         </div>
-    </div>
-    <a href="/features" class="read-more">See all features →</a>
-</section>
+        <a href="/how-it-works" class="read-more">Read the full breakdown →</a>
+    </section>
 
-<section>
-    <h2>Built With</h2>
-    <p class="section-intro">A small, deliberate stack.</p>
-    <div class="tech-list">
-        <div class="tech-item"><span class="tech-name">Python</span></div>
-        <div class="tech-item"><span class="tech-name">Flask</span></div>
-        <div class="tech-item"><span class="tech-name">Twelve Data API</span></div>
-        <div class="tech-item"><span class="tech-name">SMTP</span></div>
-    </div>
-    <a href="/tech" class="read-more">Full tech breakdown →</a>
-</section>
+    <section>
+        <h2>What's Inside</h2>
+        <p class="section-intro">Built to stay small and useful.</p>
+        <div class="feature-groups">
+            <div class="feature-group">
+                <ul>
+                    <li><strong>Live price fetching</strong> — pulled symbol by symbol.</li>
+                    <li><strong>Market-hours awareness</strong> — no stale data confusion.</li>
+                    <li><strong>Automated daily email</strong> — sent without lifting a finger.</li>
+                </ul>
+            </div>
+        </div>
+        <a href="/features" class="read-more">See all features →</a>
+    </section>
+
+    <section>
+        <h2>Built With</h2>
+        <p class="section-intro">A small, deliberate stack.</p>
+        <div class="tech-list">
+            <div class="tech-item"><span class="tech-name">Python</span></div>
+            <div class="tech-item"><span class="tech-name">Flask</span></div>
+            <div class="tech-item"><span class="tech-name">Twelve Data API</span></div>
+            <div class="tech-item"><span class="tech-name">SMTP</span></div>
+        </div>
+        <a href="/tech" class="read-more">Full tech breakdown →</a>
+    </section>
+</div>
 
 {% endblock %}

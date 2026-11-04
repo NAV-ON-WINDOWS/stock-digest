@@ -28,6 +28,7 @@ stock-digest/
 ├── db.py                  # Creates a Database and manages registerations
 ├── main.py                # SMTP email boilerplate 
 ├── send_digest.py         # Compiles all required data for the newsletter and sends it
+├── requirements.txt       # Dependencies for the project
 └── templates/             # Jinja2 HTML templates
     ├── base.html          # Core layout and styling
     ├── index.html         # Hero canvas and cascading stock UI

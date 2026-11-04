@@ -24,7 +24,10 @@ The frontend features a custom-built, infinite-scrolling cascading grid of live 
 ```text
 stock-digest/
 ├── app.py                 # Main Flask application and routing
-├── requirements.txt       # Python dependencies
+├── data.py                # Fetches live data via Twelve Data API
+├── db.py                  # Creates a Database and manages registerations
+├── main.py                # SMTP email boilerplate 
+├── send_digest.py         # Compiles all required data for the newsletter and sends it
 └── templates/             # Jinja2 HTML templates
     ├── base.html          # Core layout and styling
     ├── index.html         # Hero canvas and cascading stock UI
@@ -33,7 +36,8 @@ stock-digest/
     ├── how-it-works.html  
     ├── stocks.html        
     ├── subscribed.html    
-    └── tech.html          
+    ├── tech.html   
+    └── error.html       
 ```
 
 ## ⚙️ Local Setup
@@ -64,8 +68,8 @@ stock-digest/
    ```
 
 5. **Run the application:**
-   ```bash
-   flask run
+   ```powershell
+   python app.py
    ```
    The app will be live at `http://127.0.0.1:5000`.
 
